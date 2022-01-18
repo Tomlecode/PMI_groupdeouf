@@ -1,5 +1,6 @@
 import numpy as np
-
+import matplotlib.pyplot as plt
+import math as m
 M=[["Beat it", [4, 3, 18, 0, 132, 2.417]]]
 
 def permutation(Mat,i,j):
@@ -120,12 +121,68 @@ def recherche_2plusgrandes(D):
 
 # print(U)
 dmax1,dmax2,i_max1,i_max2=recherche_2plusgrandes(W)
-Ud=U[:,:2]
-print(Ud)
+Ud=U[:2,:]
+# print(Ud)
 Udt=Ud.T
-X=np.array([[i,1] for i in range(20)])
-print(X)
-Test=np.dot(Udt,X)
-Test=np.dot(Test,Ud)
+# X=np.array([i for i in range(20)])
+# print(X)
+# Xt=X.T
+# print(X)
+# Test=np.dot(Udt,W)
+# print(Test)
+# Test=np.dot(Test,Ud)
 # print(recherche_2plusgrandes(W))
+# plt.plot(X,Ud[0])
+# plt.plot(X,Ud[1])
+# plt.show()
+U1=[[0,0]for i in range(20)]
+U2=[[0,0]for i in range(20)]
+# print(U1)
+for i in range(20):
+    U1[i][0]=Ud[0,i]
+    U1[i][1]=M[i][0]
+    U2[i][0]=Ud[1,i]
+    U2[i][1]=M[i][0]
+# print(U2[0])
+# print(U2[10])
 
+## 3.
+
+D=np.eye(20)
+for i in range(20):
+    for j in range(20):
+        D[i,j]=U1[i][0]*U1[j][0]+U2[i][0]*U2[j][0]
+        x1=U1[i][0]**2+U2[i][0]**2
+        x2=U1[j][0]**2+U2[j][0]**2
+        D[i,j]=D[i,j]/(m.sqrt(x1)*m.sqrt(x2))
+# print(D)
+X=np.array([i for i in range(20)])
+# print(D[0])
+# plt.plot(X,D[0])
+# plt.show()
+C1=[[0,0]for i in range(20)]
+# print(C1)
+for i in range(20):
+    C1[i][0]=D[0,i]
+    C1[i][1]=M[i][0]
+# print(C1)
+
+def tri_croissant(V):
+    for i in range(len(V)):
+        i_min=i
+        Vmin=V[i]
+        for j in range(len(V[i+1:])+1):
+            if Vmin>V[j+i]:
+                Vmin=V[j+i]
+                i_min=j+i
+        # print(V)
+        permutation(V,i,i_min)
+        # permutation(M,i,i_min)
+    return V
+
+def permutation(Mat,i,j):
+    s=Mat[i]
+    Mat[i]=Mat[j]
+    Mat[j]=s
+
+print(tri_croissant(C1))

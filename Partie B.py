@@ -1,6 +1,7 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-M=[["Beat it", [4, 3, 18, 0, 132, 2.417]]]
+M=[["Beat it - Michael Jackson", [4, 3, 18, 0, 132, 2.417]]]
 
 def permutation(Mat,i,j):
     s=Mat[i]
@@ -11,25 +12,25 @@ def ajout_musique(M,nom,cre,decre,stac,porta,tempo,inter):
     M.append([nom,[cre, decre, stac, porta, tempo, inter]])
     return M
 
-ajout_musique(M,"How Will I know", 17, 4, 34, 0, 120, 5.281)
-ajout_musique(M,"Together Again", 4, 2, 16, 0, 120, 5.876)
-ajout_musique(M,"No Scrubs", 10, 4, 14, 24, 90, 5.563)
-ajout_musique(M,"Poker Face", 4, 2, 16, 8, 120, 4.75)
-ajout_musique(M,"Crazy in Love", 7, 4, 19, 24, 100, 5.563)
-ajout_musique(M,"Only Girl", 18, 2, 56, 11, 126, 3.24)
-ajout_musique(M,"Say My Name", 10, 2, 21, 26, 70, 5.25)
-ajout_musique(M,"Dreamlover", 6, 4, 19, 8, 104, 5.375)
-ajout_musique(M,"Like a Virgin", 4, 0, 14, 0, 118, 2.938)
-ajout_musique(M,"Billie Jen", 9, 4, 14, 9, 117, 3.15)
-ajout_musique(M,"I Wanna Dance", 10, 2, 38, 12, 120, 1.563)
-ajout_musique(M,"All for You", 0, 4, 10, 15, 114, 4.389)
-ajout_musique(M,"Waterfalls", 3, 2, 15, 8, 84, 1.5)
-ajout_musique(M,"Born This Way", 9, 1, 14, 9, 124, 2.656)
-ajout_musique(M,"Single Ladies", 8, 0, 36, 28, 96, 5.292)
-ajout_musique(M,"Umbrella", 5, 6, 34, 4, 86, 4.375)
-ajout_musique(M,"Bootylicious", 14, 2, 20, 16, 104, 7.75)
-ajout_musique(M,"Fantasy", 7, 1, 16, 7, 112, 5.375)
-ajout_musique(M,"Like a Prayer", 3, 1, 10, 0, 120, 4.375)
+ajout_musique(M,"How Will I know - Whitney Houston", 17, 4, 34, 0, 120, 5.281)
+ajout_musique(M,"Together Again - Janet Jackson", 4, 2, 16, 0, 120, 5.876)
+ajout_musique(M,"No Scrubs - TLC", 10, 4, 14, 24, 90, 5.563)
+ajout_musique(M,"Poker Face - Lady Gaga", 4, 2, 16, 8, 120, 4.75)
+ajout_musique(M,"Crazy in Love - Beyoncé", 7, 4, 19, 24, 100, 5.563)
+ajout_musique(M,"Only Girl - Rihanna", 18, 2, 56, 11, 126, 3.24)
+ajout_musique(M,"Say My Name - Destiny's Child", 10, 2, 21, 26, 70, 5.25)
+ajout_musique(M,"Dreamlover - Mariah Carey", 6, 4, 19, 8, 104, 5.375)
+ajout_musique(M,"Like a Virgin - Madonna", 4, 0, 14, 0, 118, 2.938)
+ajout_musique(M,"Billie Jen - Michael Jackson", 9, 4, 14, 9, 117, 3.15)
+ajout_musique(M,"I Wanna Dance - Whitney Houston", 10, 2, 38, 12, 120, 1.563)
+ajout_musique(M,"All for You - Janet Jackson", 0, 4, 10, 15, 114, 4.389)
+ajout_musique(M,"Waterfalls - TLC", 3, 2, 15, 8, 84, 1.5)
+ajout_musique(M,"Born This Way - Lady Gaga", 9, 1, 14, 9, 124, 2.656)
+ajout_musique(M,"Single Ladies - Beyoncé", 8, 0, 36, 28, 96, 5.292)
+ajout_musique(M,"Umbrella - Rihanna", 5, 6, 34, 4, 86, 4.375)
+ajout_musique(M,"Bootylicious - Destiny's Child", 14, 2, 20, 16, 104, 7.75)
+ajout_musique(M,"Fantasy - Mariah Carey", 7, 1, 16, 7, 112, 5.375)
+ajout_musique(M,"Like a Prayer - Madonna", 3, 1, 10, 0, 120, 4.375)
 
 def seuils (M):
     N=[]
@@ -130,7 +131,7 @@ def recherche_2nd_mini(D):
             dmin2=D[i,i]
             i_min2=i
     return dmin2,i_min2         #Valeur de Fiedler
-dmin2,i_min2 = recherche_2nd_mini(D)
+dfied,i_fied = recherche_2nd_mini(D)
 # print(i_min2)
 # print("valeur propre la seconde plus petite : ",dmin2)
 # print("vecteur propre associé : ",V[i_min2])
@@ -148,6 +149,13 @@ def tri_croissant(V,M):
         permutation(M,i,i_min)
     return V,M
 M=np.array(M)
-Vcroiss_min,Noms_ordonnés=tri_croissant(V[i_min2],M[:,0])
+Vcroiss_min,Noms_ordonnés=tri_croissant(V[i_fied],M[:,0])
 print("Rangé : ",Vcroiss_min)
-print(Noms_ordonnés)
+# print(Noms_ordonnés)s
+
+for i in Noms_ordonnés:
+    print(i)
+
+X=[i for i in range(20)]
+plt.plot(X,Vcroiss_min)
+plt.show()
