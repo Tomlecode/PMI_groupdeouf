@@ -1,3 +1,5 @@
+blllll
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math as m
@@ -186,4 +188,3 @@ def permutation(Mat,i,j):
     Mat[j]=s
 
 print(tri_croissant(C1))
-print(Tom a modifié)
