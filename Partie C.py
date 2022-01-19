@@ -188,3 +188,4 @@ def permutation(Mat,i,j):
 
 print(tri_croissant(C1))
 print("Mais qui est donc Tom Zlap?")
+print("Belote")
