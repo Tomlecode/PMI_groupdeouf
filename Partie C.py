@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math as m
+
 M=[["Beat it", [4, 3, 18, 0, 132, 2.417]]]
 
 def permutation(Mat,i,j):
@@ -186,3 +187,4 @@ def permutation(Mat,i,j):
     Mat[j]=s
 
 print(tri_croissant(C1))
+print("Mais qui est donc Tom Zlap?")
