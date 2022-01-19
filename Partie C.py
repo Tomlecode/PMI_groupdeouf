@@ -186,3 +186,4 @@ def permutation(Mat,i,j):
     Mat[j]=s
 
 print(tri_croissant(C1))
+print(Tom a modifié)
