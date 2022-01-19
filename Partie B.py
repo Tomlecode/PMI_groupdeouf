@@ -73,7 +73,7 @@ def seuils (M):
 
     return N
 Mb=(seuils(M))  #binaire + nom
-
+print(Mb)
 Mbi=[]
 for i in range(len(Mb)):
     Mbi.append(Mb[i][1])

@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math as m
-
 M=[["Beat it", [4, 3, 18, 0, 132, 2.417]]]
 
 def permutation(Mat,i,j):
@@ -14,7 +13,7 @@ def ajout_musique(M,nom,cre,decre,stac,porta,tempo,inter):
     return M
 
 ajout_musique(M,"How Will I know", 17, 4, 34, 0, 120, 5.281)
-ajout_musique(M,"Together Again", 4, 2, 16, 0, 120, 5.876)
+ajout_musique(M,"Together Again", 4, 2, 16, 0, 120, 5.875)
 ajout_musique(M,"No Scrubs", 10, 4, 14, 24, 90, 5.563)
 ajout_musique(M,"Poker Face", 4, 2, 16, 8, 120, 4.75)
 ajout_musique(M,"Crazy in Love", 7, 4, 19, 24, 100, 5.563)
@@ -42,39 +41,39 @@ def seuils (M):
 
         if (M[i][1][0])>=8:     #crescendo
             N[i][1].append(1)
-        if (M[i][1][0])<=8:
+        if (M[i][1][0])<8:
             N[i][1].append(0)
 
         if (M[i][1][1])>=2:     #decrescendo
             N[i][1].append(1)
-        if (M[i][1][1])<=2:
+        if (M[i][1][1])<2:
             N[i][1].append(0)
 
 
         if (M[i][1][2])>=22:     #staccato
             N[i][1].append(1)
-        if (M[i][1][2])<=22:
+        if (M[i][1][2])<22:
             N[i][1].append(0)
 
         if (M[i][1][3])>=10:     #portamento
             N[i][1].append(1)
-        if (M[i][1][3])<=10:
+        if (M[i][1][3])<10:
             N[i][1].append(0)
 
         if (M[i][1][4])>=109:     #tempo
             N[i][1].append(1)
-        if (M[i][1][4])<=109:
+        if (M[i][1][4])<109:
             N[i][1].append(0)
 
         if (M[i][1][5])>=4:     #intervals
             N[i][1].append(1)
-        if (M[i][1][5])<=4:
+        if (M[i][1][5])<4:
             N[i][1].append(0)
 
 
     return N
 Mb=(seuils(M))  #binaire + nom
-
+# print(Mb)
 Mbi=[]
 for i in range(len(Mb)):
     Mbi.append(Mb[i][1])
@@ -122,9 +121,18 @@ def recherche_2plusgrandes(D):
 
 # print(U)
 dmax1,dmax2,i_max1,i_max2=recherche_2plusgrandes(W)
-Ud=U[:2,:]
+Ud=U[:,:2]
+Vd=V[:2,:]
+# Vd=Vd.T
 # print(Ud)
-Udt=Ud.T
+I=np.eye(20)
+for i in range(20):
+    I[i,i]=W[i]
+Wb=I[:2,:2]
+Wb=np.dot(Wb,Vd)
+Xb=np.dot(Ud,Wb)
+
+# Udt=Ud.T
 # X=np.array([i for i in range(20)])
 # print(X)
 # Xt=X.T
@@ -133,16 +141,19 @@ Udt=Ud.T
 # print(Test)
 # Test=np.dot(Test,Ud)
 # print(recherche_2plusgrandes(W))
-# plt.plot(X,Ud[0])
-# plt.plot(X,Ud[1])
+# plt.plot(X,Ud[0],'o-')
+# for i in range(20):
+#     plt.annotate(M[i][0], (X[i],Ud[0][i]))
+
+# plt.plot(Vd[1],Ud[1],'o-')
 # plt.show()
 U1=[[0,0]for i in range(20)]
 U2=[[0,0]for i in range(20)]
 # print(U1)
 for i in range(20):
-    U1[i][0]=Ud[0,i]
+    U1[i][0]=Ud[i,0]
     U1[i][1]=M[i][0]
-    U2[i][0]=Ud[1,i]
+    U2[i][0]=Ud[i,1]
     U2[i][1]=M[i][0]
 # print(U2[0])
 # print(U2[10])
@@ -152,14 +163,24 @@ for i in range(20):
 D=np.eye(20)
 for i in range(20):
     for j in range(20):
-        D[i,j]=U1[i][0]*U1[j][0]+U2[i][0]*U2[j][0]
-        x1=U1[i][0]**2+U2[i][0]**2
-        x2=U1[j][0]**2+U2[j][0]**2
-        D[i,j]=D[i,j]/(m.sqrt(x1)*m.sqrt(x2))
+        pds1=U1[i][0]*U1[j][0]
+        pds2=U2[i][0]*U2[j][0]
+        pds=pds1+pds2
+        n1=m.sqrt(U1[i][0]**2+U2[i][0]**2)
+        n2=m.sqrt(U1[j][0]**2+U2[j][0]**2)
+        D[i,j]=pds/(n1*n2)
 # print(D)
+# print(D==D.T)
 X=np.array([i for i in range(20)])
 # print(D[0])
+
 # plt.plot(X,D[0])
+# plt.xlim(0,20)
+# plt.ylim(-1,1)
+# for i in range(20):
+    # plt.annotate(M[i][0], (X[i],D[0][i]))
+
+
 # plt.show()
 C1=[[0,0]for i in range(20)]
 # print(C1)
@@ -186,6 +207,92 @@ def permutation(Mat,i,j):
     Mat[i]=Mat[j]
     Mat[j]=s
 
-print(tri_croissant(C1))
-print("Mais qui est donc Tom Zlap?")
-print("Belote")
+C1=tri_croissant(C1)
+C1=np.array(C1)
+# print(C1)
+
+Cb=[]    #j'arrive pas a tracer un array avec plot
+Cn=[]
+for i in range(20):
+        Cb.append(C1[i,:1][0])
+        Cn.append(C1[i,1:][0])
+# print(Cb)
+# plt.plot(X,Cb,'o-')
+# for i in range(20):
+    # plt.annotate(Cn[i], (X[i],Cb[i]))
+# plt.xlim(0,20)
+# plt.ylim(-1,10)
+# plt.show()
+
+D=np.eye(20)
+S=[0]*20
+# print(S)
+for i in range(20):
+    n1=m.sqrt(np.dot(Xb[0],Xb[0].T))
+    n2=m.sqrt(np.dot(Xb[i],Xb[i].T))
+    d=np.dot(Xb[0],Xb[i].T)/(n1*n2)
+    D[i,i]=d
+    S[i]=d
+# print(S)
+# plt.plot(X,S)
+# for i in range(20):
+#     plt.annotate(M[i][0], (X[i],S[i]))
+
+# S2=S[1:]
+# S2=tri_croissant(S2)
+# plt.plot(X[:-1],S2)
+# for i in range(19):
+    # plt.annotate(M[i+1][0], (X[i],S[i]))
+# plt.show()
+D=np.eye(20)
+for i in range(20):
+    for j in range(20):
+        n1=m.sqrt(np.dot(Xb[j],Xb[j].T))
+        n2=m.sqrt(np.dot(Xb[i],Xb[i].T))
+        d=np.dot(Xb[j],Xb[i].T)/(n1*n2)
+        D[i,j]=d
+# print(D)
+# print(D[7,:])
+plt.plot(X,1-D[7,:])
+plt.plot(X,1-D[0,:])
+for i in range(20):
+    # plt.plot(X,1-D[i,:],'o-')
+    plt.annotate(M[i][0], (X[i],1-D[0,i]))
+plt.show()
+
+## 4. Moyenne de Michael Jackson
+
+S=np.array([0.]*20)
+Xb1=np.array([0]*20, dtype=float)
+for i in range(20):
+    Xb1[i]=(Xb[0,i]+Xb[10,i])
+    Xb1[i]=Xb1[i]/2
+print(Xb1)
+for i in range(20):
+    n1=m.sqrt(np.dot(Xb1,Xb1.T))
+    n2=m.sqrt(np.dot(Xb[i],Xb[i].T))
+    d=np.dot(Xb1,Xb[i].T)/(n1*n2)
+    S[i]=d
+print(S)
+plt.plot(X,S)
+for i in range(20):
+    plt.annotate(M[i][0], (X[i],S[i]))
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
